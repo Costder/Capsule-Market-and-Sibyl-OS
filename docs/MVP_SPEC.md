@@ -5,10 +5,7 @@ The smallest thing that proves the whole thesis and lands on the live
 + agents that survives the lockdown** — runnable by any Android/Linux developer
 today, with **no ROM and no Play Store**.
 
-> Strategy context: we are NOT building "another AI phone." The on-device-agent
-> space is a red ocean (AIOS, MANTIS, PokeClaw, …). Our wedge is the **trust +
-> distribution layer** none of them have. See `docs/ARCHITECTURE.md` and the
-> project doc.
+
 
 ---
 
