@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sibyl.os/schemas/capsule/v0",
+  "title": "Capsule Manifest",
+  "description": "The manifest (capsule.json) for a Capsule — the unit of distribution in Capsule Market / Sibyl OS.",
+  "type": "object",
+  "required": ["schema", "name", "version", "title", "kind", "capabilities", "trust", "source"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "description": "Schema version pin. Lets the vocabulary grow without breaking older capsules.",
+      "const": "https://sibyl.os/schemas/capsule/v0"
+    },
+    "name": {
+      "type": "string",
+      "description": "Capsule id within the publisher namespace.",
+      "pattern": "^[a-z0-9][a-z0-9-_]{1,63}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+].+)?$"
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "description": { "type": "string", "maxLength": 280 },
+    "kind": {
+      "type": "string",
+      "description": "instant = JS/WASM bundle run inside the host runtime (no install). native = an installed APK.",
+      "enum": ["instant", "native"]
+    },
+    "entry": {
+      "type": ["string", "null"],
+      "description": "Instant capsules: bundle entry file. Native: null."
+    },
+    "apk": {
+      "type": ["string", "null"],
+      "description": "Native capsules: path/ref to the APK. Instant: null."
+    },
+    "runtime": {
+      "type": "object",
+      "description": "Instant capsules only: which host engine + minimum version.",
+      "additionalProperties": false,
+      "properties": {
+        "engine": { "type": "string", "enum": ["js", "wasm"] },
+        "min": { "type": "string" }
+      },
+      "required": ["engine"]
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Capability scopes this capsule REQUESTS. Requests are not grants; the TrustManager decides based on trust level.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+\\.[a-z]+$"
+      },
+      "uniqueItems": true
+    },
+    "trust": {
+      "type": "object",
+      "description": "OpenTrust binding: minimum required level, passport reference, and signature.",
+      "additionalProperties": false,
+      "required": ["minLevel", "passport"],
+      "properties": {
+        "minLevel": {
+          "type": "string",
+          "enum": ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+        },
+        "passport": {
+          "type": "string",
+          "description": "DID/reference to (or embedded) OpenTrust passport."
+        },
+        "signature": {
+          "type": ["string", "null"],
+          "description": "Signature over bundle hash + manifest. Null only for dev/unsigned capsules."
+        },
+        "publisherKey": {
+          "type": ["string", "null"],
+          "description": "Publisher public key."
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "description": "Provenance + forkability.",
+      "additionalProperties": false,
+      "required": ["license"],
+      "properties": {
+        "repo": { "type": ["string", "null"], "format": "uri" },
+        "fork_of": {
+          "type": ["string", "null"],
+          "description": "Capsule id this was forked from, if any. Powers the fork graph."
+        },
+        "license": { "type": "string" }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "icon": { "type": ["string", "null"] },
+        "screenshots": { "type": "array", "items": { "type": "string" } },
+        "demo": { "type": ["string", "null"], "description": "Optional instant-demo capsule ref." }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "instant" } } },
+      "then": {
+        "required": ["entry", "runtime"],
+        "properties": { "entry": { "type": "string", "minLength": 1 } }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "native" } } },
+      "then": {
+        "required": ["apk"],
+        "properties": { "apk": { "type": "string", "minLength": 1 } }
+      }
+    }
+  ]
+}

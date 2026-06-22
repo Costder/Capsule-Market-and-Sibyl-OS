@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# builds / outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# expo / react native
+.expo/
+.expo-shared/
+*.apk
+*.aab
+*.keystore
+
+# android / aosp build artifacts
+*.iml
+.gradle/
+local.properties
+captures/
+
+# python (tooling / scripts)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# env / secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+secrets.json
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

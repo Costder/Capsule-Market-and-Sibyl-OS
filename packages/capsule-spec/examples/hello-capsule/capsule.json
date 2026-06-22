@@ -1,0 +1,28 @@
+{
+  "schema": "https://sibyl.os/schemas/capsule/v0",
+  "name": "hello-capsule",
+  "version": "0.1.0",
+  "title": "Hello, Capsule",
+  "description": "The smallest possible instant capsule. Scan, run, see output.",
+  "kind": "instant",
+  "entry": "index.js",
+  "apk": null,
+  "runtime": { "engine": "js", "min": "0.1.0" },
+  "capabilities": ["storage.local"],
+  "trust": {
+    "minLevel": "L1",
+    "passport": "did:opentrust:example:hello-capsule",
+    "signature": null,
+    "publisherKey": null
+  },
+  "source": {
+    "repo": "https://github.com/Costder/Capsule-Market-and-Sibyl-OS",
+    "fork_of": null,
+    "license": "MIT"
+  },
+  "ui": {
+    "icon": "assets/icon.png",
+    "screenshots": [],
+    "demo": null
+  }
+}
