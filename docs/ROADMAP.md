@@ -8,7 +8,7 @@ that rides on top of that ecosystem.**
 
 Positioning (see project doc): the non-programmer consumer is the **destination**;
 developers + AI-agent builders being evicted by Google's Sept 30 2026
-developer-verification are the **beachhead**.
+*editted out some of claude'ss bad writting.**
 
 ---
 
@@ -55,7 +55,7 @@ Now own the platform.
 - [ ] DoD: a clean flash boots, runs a normal Android app, runs a capsule, and an agent drives the device — one OS image.
 
 ## Phase 4 — Ecosystem + agent economy
-- [ ] Payments: USDC wallet (OpenTrust/HBF) → paid capsules + the `wallet.spend` capability.
+- [ ] Payments: USDC wallet Or stripe (OpenTrust/HBF) → paid capsules + the `wallet.spend` capability.
 - [ ] **Compute mesh**: nodes share/donate compute, settled in USDC, trust-gated (the "share compute" goal).
 - [ ] Cross-device + cross-agent coordination.
 - [ ] OEM / preinstall conversations (the only proven consumer path — cf. Motorola × GrapheneOS).
