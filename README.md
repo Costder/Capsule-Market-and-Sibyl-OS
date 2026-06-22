@@ -22,7 +22,7 @@ every developer must register with Google + upload ID or their apps won't instal
 they sidestep the lockdown, and the OpenTrust passport answers "who made this / is
 it untampered?" **without** Google's central gate.
 
-We are **not** building another on-device AI agent (that space is a red ocean). We're
+We are **not** building another on-device AI agent We're
 building the **trust + distribution layer** those agents lack.
 
 ## Try it in 2 minutes (no installs, pure Node)
