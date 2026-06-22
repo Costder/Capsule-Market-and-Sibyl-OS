@@ -1,38 +1,25 @@
-# capsule-registry  ▢ (Phase 1)
+# @sibyl/capsule-registry ✅
 
-The **"npm for mobile"**: the backend that stores Capsules and serves them by QR/deep-link, plus the
-CLI that makes publishing as easy as `npm publish`.
+The "npm for mobile" backend + the `capsule` CLI. **Zero external dependencies**
+(Node `http` + filesystem; reuses `@sibyl/trust` by relative import). Verified
+end-to-end, including tamper rejection.
 
-## What to build
-
-**Backend**
-- Store signed capsule bundles (content-addressed) + index their manifests.
-- Resolve a capsule by id/version → manifest + bundle URL.
-- Issue QR/deep-links that the `capsule-runtime` host can open.
-- Verify passport + signature on publish (reject unsigned outside dev).
-- Track `source.fork_of` to expose a **fork graph** (GitHub-network style).
-
-**CLI**
+## Server
+```bash
+node src/server.mjs            # PORT=4173, STORE=./store by default
 ```
-capsule publish        # package, sign, push a capsule to the registry
-capsule install <id>   # fetch a capsule (or print its QR)
-capsule fork <id>      # clone a capsule's source, set source.fork_of, ready to edit + republish
+- `POST /capsules` — **verifies the passport against the uploaded bytes**; rejects
+  with 403 on signature/hash mismatch. Only then does it host the capsule.
+- `GET /capsules/:id` · `GET /capsules/:id/bundle` · `GET /c/:id` (scan-to-run QR page) · `GET /`
+
+## CLI
+```bash
+node src/cli.mjs keygen                                   # ed25519 identity → ~/.capsule/identity.json
+node src/cli.mjs init ./my-capsule --name my-capsule
+node src/cli.mjs sign ./my-capsule --level L2
+node src/cli.mjs publish ./my-capsule --registry http://localhost:4173
 ```
+(When installed via workspaces, this is just `capsule <cmd>`.)
 
-## Fork / study
-
-- **[npm](https://docs.npmjs.com/cli)** — registry + CLI UX to emulate (`publish`, semver, scopes).
-- **[F-Droid](https://f-droid.org/docs/)** — open repo format, **reproducible builds**, and app
-  signing. The gold standard for an *open* app repository.
-- **[Termux](https://termux.dev)** — patterns for fetching + running packages on Android.
-
-## Depends on
-
-- `@sibyl/capsule-spec` — manifests are the index records.
-- `@sibyl/trust` — publish-time passport/signature verification.
-
-## Open questions
-
-- Hosting model: centralized index first; federate/decentralize later?
-- Namespacing + publisher identity (ties to OpenTrust passports).
-- Moderation vs. openness — trust levels do most of the work, but define the floor.
+The registry being unable to host a capsule whose passport doesn't verify is the
+point: **identity is the price of distribution**, enforced without a central ID gate.

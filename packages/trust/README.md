@@ -1,31 +1,27 @@
-# trust  ▢ (Phase 0 — the TrustManager client)
+# @sibyl/trust ✅
 
-OpenTrust passport **verification + capability gating** — the client side of Sibyl's permission
-model. This is the one component that must exist in *every* phase, because nothing guarded runs
-without it.
+OpenTrust passport verification + capability gating. Pure, portable core with
+pluggable ed25519 adapters: **Node built-in crypto** (CLI/registry/tests) and
+**@noble/ed25519** (the React Native host). Unit-tested — `node --test`.
 
-## What to build
+## What it does
+- **Passport** (`passport.js`): sign/verify ed25519 over canonicalized claims;
+  enforce bundle-hash integrity and manifest binding.
+- **Grants** (`grants.js`): trust levels L1–L7, `effectiveLevel` from a local trust
+  store, `grantedCapabilities = requested ∩ allowed-at-level`, `gate()` + kill switch.
+- **Canonical** (`canonical.js`): deterministic JSON for stable signatures.
 
-- **`verifyPassport(passport)`** — check signature; resolve trust level against the OpenTrust
-  Registry (reuse the Registry MCP: `verify_tool`/`search_tools` generalize to
-  `verify_capsule`/`search_capsules`).
-- **`grants(manifest, passport)`** — given a capsule's requested `capabilities[]` and its resolved
-  trust level, return the set actually **granted** (request ∩ allowed-at-level). Requests are never
-  silently escalated.
-- **`gate(capability, ctx)`** — the runtime check the capsule-runtime and agent-mcp call before any
-  guarded action: `(capability ∈ granted) ∧ (level ≥ minLevel)`, plus spend caps + kill switch for
-  value-bearing calls.
+## Import map (important for React Native)
+The package index (`@sibyl/trust`) pulls in Node's `crypto` via the Node adapter —
+fine for Node, but **the RN host must import the pure submodules instead**:
 
-## Mirror the existing model
+```js
+import { verifyPassport } from "@sibyl/trust/passport";
+import { grantedCapabilities, effectiveLevel } from "@sibyl/trust/grants";
+import { nobleCrypto } from "@sibyl/trust/crypto-noble";
+```
 
-This is **the HBF gating logic applied to apps + device capabilities**: L1–L7 trust levels, spend
-caps, and a global kill switch — the same machinery that already gates HBF's ~94 tools. Passport
-claims must carry a **numeric** trust level under the hood (as in HBF's `PassportClaims`) or the
-trust check mis-allows.
-
-## Depends on
-
-- `@sibyl/capsule-spec` — `TrustLevel`, `meetsTrust`, `CapsuleManifest`.
-- The OpenTrust Registry (via its MCP / SDK) — the source of truth for verification.
-
-See [`../../docs/OPENTRUST_INTEGRATION.md`](../../docs/OPENTRUST_INTEGRATION.md).
+## Core idea
+Identity is decentralized (anyone can sign); **trust level is local policy**. A
+validly-signed unknown publisher is L1 (sandbox) until the user/host pins it higher.
+See `../../docs/OPENTRUST_INTEGRATION.md`.

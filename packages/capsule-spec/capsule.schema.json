@@ -42,7 +42,7 @@
       "description": "Instant capsules only: which host engine + minimum version.",
       "additionalProperties": false,
       "properties": {
-        "engine": { "type": "string", "enum": ["js", "wasm"] },
+        "engine": { "type": "string", "enum": ["web", "js", "wasm"] },
         "min": { "type": "string" }
       },
       "required": ["engine"]

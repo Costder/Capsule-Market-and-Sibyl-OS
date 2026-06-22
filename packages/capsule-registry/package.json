@@ -1,0 +1,12 @@
+{
+  "name": "@sibyl/capsule-registry",
+  "version": "0.0.1",
+  "description": "Capsule registry server + `capsule` CLI (keygen/init/sign/publish). Zero external deps.",
+  "type": "module",
+  "bin": { "capsule": "src/cli.mjs" },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

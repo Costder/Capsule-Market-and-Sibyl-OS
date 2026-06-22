@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Capsule",
+    "slug": "capsule-host",
+    "scheme": "capsule",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "platforms": ["android", "ios"],
+    "android": { "package": "sh.sibyl.capsule" },
+    "ios": { "bundleIdentifier": "sh.sibyl.capsule" },
+    "plugins": [
+      ["expo-camera", { "cameraPermission": "Capsule scans QR codes to launch capsules." }]
+    ]
+  }
+}

@@ -35,6 +35,11 @@ venv/
 *.key
 secrets.json
 
+# capsule local state
+store/
+.capsule/
+identity.json
+
 # os / editor
 .DS_Store
 Thumbs.db

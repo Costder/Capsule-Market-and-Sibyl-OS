@@ -3,15 +3,15 @@
   "name": "hello-capsule",
   "version": "0.1.0",
   "title": "Hello, Capsule",
-  "description": "The smallest possible instant capsule. Scan, run, see output.",
+  "description": "The smallest real instant capsule: counts its runs via the storage.local capability.",
   "kind": "instant",
-  "entry": "index.js",
+  "entry": "index.html",
   "apk": null,
-  "runtime": { "engine": "js", "min": "0.1.0" },
+  "runtime": { "engine": "web", "min": "0.1.0" },
   "capabilities": ["storage.local"],
   "trust": {
     "minLevel": "L1",
-    "passport": "did:opentrust:example:hello-capsule",
+    "passport": "passport.json",
     "signature": null,
     "publisherKey": null
   },
@@ -20,9 +20,5 @@
     "fork_of": null,
     "license": "MIT"
   },
-  "ui": {
-    "icon": "assets/icon.png",
-    "screenshots": [],
-    "demo": null
-  }
+  "ui": { "icon": null, "screenshots": [], "demo": null }
 }

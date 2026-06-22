@@ -1,0 +1,17 @@
+{
+  "name": "sibyl-monorepo",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Capsule Market + Sibyl OS — monorepo.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "registry": "node packages/capsule-registry/src/server.mjs",
+    "capsule": "node packages/capsule-registry/src/cli.mjs",
+    "host": "npm --workspace apps/capsule-host run start"
+  },
+  "license": "MIT"
+}

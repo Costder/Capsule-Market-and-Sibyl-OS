@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hello, Capsule</title>
+<body style="font-family: system-ui, sans-serif; display: grid; place-items: center; height: 92vh; margin: 0; background: #0b0f1a; color: #e8ecf5">
+  <main style="text-align: center; padding: 24px">
+    <h1 style="margin: 0 0 8px">Hello from a Capsule 👋</h1>
+    <p id="out" style="color: #8a96b3">loading…</p>
+    <p style="color: #4b5675; font-size: 13px; max-width: 320px">
+      This ran instantly, sandboxed, with only the <code>storage.local</code>
+      capability its passport was granted.
+    </p>
+  </main>
+  <script>
+    // The host injects `window.capsule` (capability-gated) before this runs.
+    window.__capsuleMain = async function (capsule) {
+      try {
+        const n = Number((await capsule.storage.get("runs")) || 0) + 1;
+        await capsule.storage.set("runs", String(n));
+        document.getElementById("out").textContent = "You've opened this capsule " + n + " time(s).";
+      } catch (e) {
+        document.getElementById("out").textContent = "capability denied: " + e.message;
+      }
+      // This WOULD be denied at L1 (net.fetch needs L2 + a grant):
+      // await capsule.net.fetch("https://example.com");
+    };
+  </script>
+</body>

@@ -1,0 +1,9 @@
+{
+  "name": "@sibyl/capsule-runtime",
+  "version": "0.0.1",
+  "description": "Host/guest bridge for running Capsules sandboxed with capability-gated RPC.",
+  "type": "module",
+  "exports": { ".": "./src/index.js" },
+  "scripts": { "test": "node --test" },
+  "license": "MIT"
+}
